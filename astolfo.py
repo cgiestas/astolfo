@@ -1,17 +1,24 @@
-from ambiente import ambiente
+from ambiente import Ambiente
+
+ambiente_obj = Ambiente()
 
 class AgenteTemperatura:
-    ac_ligado = False
-    aq_ligado = False
-    def __innit__ (self):
-        #estado interno (?????????)
-        pass
-    def perceber(self, ambiente):
-        #pega temp do ambiente
-        pass
-    def decidir(self, percepcao):
-        #decide se aq ou ac deve ser ligado 
-        pass
-    def agir(self,ambiente):
-        #liga ou desliga aqui (se ligar um tem que desligar o outro)
-        pass
+    def __init__(self):
+        self.percepcao_atual = 24.0
+
+    def perceber(self, leitura):
+        self.percepcao_atual = float(leitura) 
+
+    def decidir(self):
+        if self.percepcao_atual > 24.5:
+            return "LIGAR_AC"
+        elif self.percepcao_atual < 23.5:
+            return "LIGAR_AQUECEDOR"
+        else:
+            return "MANTER"
+
+    def agir(self, acao, ambiente_obj):
+        if acao == "LIGAR_AC":
+            ambiente_obj.temp -= 1.0
+        elif acao == "LIGAR_AQUECEDOR":
+            ambiente_obj.temp += 1.0
